@@ -31,20 +31,22 @@ namespace WebApplicationCoreGLSI_C.Controllers
 
         public IActionResult Create( ProduitVM model, IFormFile photo)
         {
-
+            if (photo == null) return Content("Photo not uploaded");
 
             try
             {
 
-                var path = Path.Combine(webHostEnvironment.WebRootPath, "Images", photo.FileName);
+                var path = Path.Combine(webHostEnvironment.
+                    WebRootPath, "Images", photo.FileName);
                 using (FileStream stream = new FileStream(path, FileMode.Create))
                 {
                     photo.CopyTo(stream);
                     stream.Close();
                 }
 
-                model.produit.FileImage = photo.FileName;
+               // model.produit.FileImage = photo.FileName;
 
+                //Mapping manuel (automatique-->automapper)
 
                 var produit = new Produit
                 {

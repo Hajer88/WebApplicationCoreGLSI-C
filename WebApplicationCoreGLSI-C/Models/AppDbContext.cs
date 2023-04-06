@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace WebApplicationCoreGLSI_C.Models
 {
@@ -24,13 +25,22 @@ namespace WebApplicationCoreGLSI_C.Models
                 .Property(c => c.Name)
                 .HasColumnName("SousCatName")
                 .HasMaxLength(255);
-            modelbuilder.Entity<Categorie>()
-                .HasData(
-                new Categorie()
-                {
-                    Id = new Guid("b1f663bd-5435-4820-8c65-7787965a4a89"),
-                    Name = "Cat From APIFluent",
-                });
+            //modelbuilder.Entity<Categorie>()
+            //    .HasData(
+            //    new Categorie()
+            //    {
+            //        Id = new Guid("b1f663bd-5435-4820-8c65-7787965a4a89"),
+            //        Name = "Cat From APIFluent",
+            //    });
+            var CatJson = System.IO.File
+                    .ReadAllText("Categorie.Json");
+            List<Categorie> categories = System.Text.Json.
+               JsonSerializer.Deserialize<List<Categorie>>(CatJson);
+            //Seed to categorie
+            foreach (Categorie c in categories)
+                modelbuilder.Entity<Categorie>()
+                .HasData(c);
         }
+
     }
 }

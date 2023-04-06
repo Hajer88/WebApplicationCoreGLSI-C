@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplicationCoreGLSI_C.Models;
 
@@ -11,9 +12,11 @@ using WebApplicationCoreGLSI_C.Models;
 namespace WebApplicationCoreGLSI_C.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230406114319_TestDatabaseGenerated")]
+    partial class TestDatabaseGenerated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,8 +59,8 @@ namespace WebApplicationCoreGLSI_C.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("608d05d4-1513-49ef-a27f-a910b05f0213"),
-                            Name = "SeedDataFromJsonFile"
+                            Id = new Guid("b1f663bd-5435-4820-8c65-7787965a4a89"),
+                            Name = "Cat From APIFluent"
                         });
                 });
 
@@ -66,9 +69,6 @@ namespace WebApplicationCoreGLSI_C.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DateAjoutProduit")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("FileImage")
                         .HasColumnType("nvarchar(max)");

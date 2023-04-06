@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplicationCoreGLSI_C.Models;
+using WebApplicationCoreGLSI_C.Services;
+using WebApplicationCoreGLSI_C.ServicesContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//Ajouter le service dans le DI Container 
+builder.Services.AddScoped<ICategorieService,CategorieService>();
 
 var app = builder.Build();
 
