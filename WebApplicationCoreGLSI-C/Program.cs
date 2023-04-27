@@ -11,7 +11,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 //Ajouter le service dans le DI Container 
 builder.Services.AddScoped<ICategorieService,CategorieService>();
-
+builder.Services.AddScoped<ISousCategorieService, SousCategorieService>();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options=>
+    options.SerializerSettings.ReferenceLoopHandling=
+    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +28,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
