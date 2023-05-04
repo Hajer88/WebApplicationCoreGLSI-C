@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationCoreGLSI_C.Models;
 using WebApplicationCoreGLSI_C.Services;
 using WebApplicationCoreGLSI_C.ServicesContracts;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppDbContext>();
 //Ajouter le service dans le DI Container 
 builder.Services.AddScoped<ICategorieService,CategorieService>();
 builder.Services.AddScoped<ISousCategorieService, SousCategorieService>();
@@ -19,6 +23,7 @@ builder.Services.AddControllers()
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,8 +40,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
 namespace WebApplicationCoreGLSI_C.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> 
             options):base(options)
@@ -15,6 +17,7 @@ namespace WebApplicationCoreGLSI_C.Models
         public DbSet<SousCategorie> sscategories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
+            base.OnModelCreating(modelbuilder);
             //fluent API
             // modelbuilder.Entity<Categorie>().ToTable("DBOCateg");
             modelbuilder.Entity<Categorie>()
